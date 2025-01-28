@@ -14,6 +14,7 @@
 		8A5B8CB52CBE71BB008F58AB /* CodeWithMeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5B8CB42CBE71BB008F58AB /* CodeWithMeTests.swift */; };
 		8A5B8CBF2CBE71BB008F58AB /* CodeWithMeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5B8CBE2CBE71BB008F58AB /* CodeWithMeUITests.swift */; };
 		8A5B8CC12CBE71BB008F58AB /* CodeWithMeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5B8CC02CBE71BB008F58AB /* CodeWithMeUITestsLaunchTests.swift */; };
+		8AE3F4342CDBA28C00B25739 /* ApplicationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE3F4332CDBA28C00B25739 /* ApplicationData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8A00512B2CD0E9F80017717F /* BinaryTree.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = BinaryTree.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		8A5B8C9F2CBE71B6008F58AB /* CodeWithMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodeWithMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A5B8CA22CBE71B6008F58AB /* CodeWithMeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeWithMeApp.swift; sourceTree = "<group>"; };
 		8A5B8CA42CBE71B6008F58AB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -45,6 +47,12 @@
 		8A5B8CBA2CBE71BB008F58AB /* CodeWithMeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CodeWithMeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A5B8CBE2CBE71BB008F58AB /* CodeWithMeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeWithMeUITests.swift; sourceTree = "<group>"; };
 		8A5B8CC02CBE71BB008F58AB /* CodeWithMeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeWithMeUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		8A5B8CCD2CBE725C008F58AB /* LinkedList.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = LinkedList.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		8A7B08632D47CFBC00954BE2 /* PracticeNode.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = PracticeNode.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		8ADAC0082CC2558F00A121CA /* Stack.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Stack.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		8ADAC0092CC2620000A121CA /* Queue.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Queue.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		8ADAC00A2CC3604300A121CA /* CodingQuestions.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = CodingQuestions.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		8AE3F4332CDBA28C00B25739 /* ApplicationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +108,13 @@
 				8A5B8CA62CBE71BA008F58AB /* Assets.xcassets */,
 				8A5B8CA82CBE71BA008F58AB /* CodeWithMe.entitlements */,
 				8A5B8CA92CBE71BA008F58AB /* Preview Content */,
+				8A5B8CCD2CBE725C008F58AB /* LinkedList.playground */,
+				8ADAC0082CC2558F00A121CA /* Stack.playground */,
+				8ADAC0092CC2620000A121CA /* Queue.playground */,
+				8ADAC00A2CC3604300A121CA /* CodingQuestions.playground */,
+				8A00512B2CD0E9F80017717F /* BinaryTree.playground */,
+				8AE3F4332CDBA28C00B25739 /* ApplicationData.swift */,
+				8A7B08632D47CFBC00954BE2 /* PracticeNode.playground */,
 			);
 			path = CodeWithMe;
 			sourceTree = "<group>";
@@ -259,6 +274,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8AE3F4342CDBA28C00B25739 /* ApplicationData.swift in Sources */,
 				8A5B8CA52CBE71B6008F58AB /* ContentView.swift in Sources */,
 				8A5B8CA32CBE71B6008F58AB /* CodeWithMeApp.swift in Sources */,
 			);
