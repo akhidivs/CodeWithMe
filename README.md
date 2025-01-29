@@ -287,3 +287,74 @@ func threeSum(_ nums: [Int]) -> [[Int]] {
 **Time Complexity:** O(n^2)
 
 --------------------------------------------------
+
+### 6. Maximum Sum of Distinct Subarrays With Length K
+
+You are given an integer array nums and an integer k. Find the maximum subarray sum of all the subarrays of nums that meet the following conditions:
+
+ The length of the subarray is k, and
+ All the elements of the subarray are distinct.
+ Return the maximum subarray sum of all the subarrays that meet the conditions. If no subarray meets the conditions, return 0.
+
+ A subarray is a contiguous non-empty sequence of elements within an array.
+
+  
+
+ **Example 1:**
+
+ Input: nums = [1,5,4,2,9,9,9], k = 3
+ Output: 15
+ Explanation: The subarrays of nums with length 3 are:
+ - [1,5,4] which meets the requirements and has a sum of 10.
+ - [5,4,2] which meets the requirements and has a sum of 11.
+ - [4,2,9] which meets the requirements and has a sum of 15.
+ - [2,9,9] which does not meet the requirements because the element 9 is repeated.
+ - [9,9,9] which does not meet the requirements because the element 9 is repeated.
+ We return 15 because it is the maximum subarray sum of all the subarrays that meet the conditions
+
+```
+func maximumSubarraySum(_ nums: [Int], _ k: Int) -> Int {
+    var windowSum = 0
+    var maxSum = 0
+    var frequencyHashMap: [Int: Int] = [:]
+
+    for i in 0..<nums.count {
+
+        //Update frquency hashmap
+        if let count = frequencyHashMap[nums[i]] {
+            frequencyHashMap[nums[i]] = count + 1
+        } else {
+            frequencyHashMap[nums[i]] = 1
+        }
+        
+        windowSum += nums[i]
+        
+        if i >= k {
+            windowSum -= nums[i - k]
+            
+            //Update frequency of elements after adding next element to window and removing the first one
+            if let count = frequencyHashMap[nums[i - k]] {
+                if count - 1 == 0 {
+                    frequencyHashMap.removeValue(forKey: nums[i-k])
+                } else {
+                    frequencyHashMap[nums[i-k]] = count - 1
+                }
+            }
+        }
+        
+        //Update maxSum only if subarray has distinct elements and equals to windowSize
+        if frequencyHashMap.count == k {
+            maxSum = max(maxSum, windowSum)
+        }
+    }
+
+    return maxSum
+}
+```
+
+**Approach Used:** Sliding Window + HashMap
+
+**Time Complexity:** O(n)
+
+--------------------------------------------------
+
