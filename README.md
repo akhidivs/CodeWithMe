@@ -137,8 +137,11 @@ func longestPallindromeSubstring(inputString: String) -> String {
 }
 ```
 
-**Approach Used:** Two Pointer Technique
-**Time Complexity:** O(n^2)
+
+Approach Used: Two Pointer Technique
+
+Time Complexity: O(n^2)
+
 --------------------------------------------------
 ### 4. Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
 An input string is valid if:
@@ -216,7 +219,9 @@ private func isValidString(string: String) -> Bool {
   return stack.isEmpty()
 }
 ```
+
 **Time Complexity:** O(n)
+
 --------------------------------------------------
 
 ### 5. Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
@@ -278,5 +283,7 @@ func threeSum(_ nums: [Int]) -> [[Int]] {
 ```
 
 **Approach Used:** Two Pointer Technique
+
 **Time Complexity:** O(n^2)
+
 --------------------------------------------------
