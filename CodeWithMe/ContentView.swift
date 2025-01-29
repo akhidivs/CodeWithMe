@@ -16,7 +16,7 @@ struct ContentView: View {
     var body: some View {
       
       // Using state
-//      TextAndTextField()
+      TextAndTextField()
       
       //Button
 //      ButtonControl()
@@ -37,7 +37,7 @@ struct ContentView: View {
 //      MyGroupBox()
       
       //Model
-      MyModel()
+//      MyModel()
       
     }
 

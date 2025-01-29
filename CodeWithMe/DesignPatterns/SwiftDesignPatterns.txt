@@ -1,0 +1,650 @@
+/* 
+  SwiftDesignPatterns.txt
+  CodeWithMe
+
+  Created by Akhilesh Mishra on 28/01/25.
+  
+*/
+
+
+
+iOS Architectural Designing
+----------------------------
+
+//============================================================================================================================
+1. Design an app for iOS.
+//============================================================================================================================
+
+Designing an iOS app involves several stages, including conceptualization, user experience (UX) design, user interface (UI) design, architectural planning, and implementation.
+
+Discovery and Planning -> Architecture and Design -> Development -> Quality Assurance -> Launch -> Maintenance and Monitoring
+
+==> Conceptualization and Goal Definition
+
+App Idea: Define the purpose and scope of the app.
+
+- What problem does it solve ?
+- Who is the target audience ?
+- What key features will it include ?
+
+For example, let's design an app called "FitLife", a health and fitness app that helps users track their daily workouts, meals, water intake, and overall wellness goals.
+
+==> Define Key features for the "FitLife" App
+
+- User profiles
+- Workout plans
+- Meal tracking
+- Water tracker
+- Daily goals and achievement
+- Integration with Apple Health
+
+
+==> User Experience (UX) Design
+
+Map out how a user will navigate the app.
+- Onboarding flow for the first time users.
+- Daily workout tracking flow
+- Meal logging flow
+- Progress tracking flow
+
+
+==> User Interface (UI) Design
+
+This step involves creating wireframes and mockups of the app screens to visually represent the layout, look, and feel.
+
+Main Screens for FitLife includes:
+- Login/Onboarding Screen
+- Dashboard - display key goals, offers quick access to workouts, meal logging and progress tracking
+- Workout Screen
+- Meal logging screen
+- Progress screen
+
+
+==> Technical Architecture
+
+- MVC/MVVM: choose an architecture pattern MVC, MVVM etc to structure the codebase for seperation of concerns.
+- Workout Data: Use local storage or integrate with cloud services for syncing across devices.
+- Meal Database: Integrate with third party APIs to fetch nutritional data
+- Apple HealthKit integration
+- Push notifications: Remind users to log meals or complete goals
+
+
+==> Wireframes and Mockups
+
+Before jumping into coding, you would design wireframes and detailed mockups for each key screen of the app
+
+==> Implementation
+
+Once the design is complete it's time to implement the app
+
+==> Testing
+
+Unit Test, UI Test, Real device testing
+
+==> App store deployment
+
+==> Post App Launch
+
+
+//============================================================================================================================
+2. Explain SOLID principles in Swift development
+//============================================================================================================================
+
+The SOLID principles are a set of design that helps developers create maintainable, scalable, and robust software. They are often applied in object oriented programming, including Swift Development, to ensure code is clean, modular and easy to understand. Let's break down each principle with Swift example.
+
+==> Single Responsibility Principle (SRP)
+
+A class should have only one reason to change, meaning it should have only one job or responsibility. This keeps your code organized and easy to maintain.
+
+
+
+Example:
+
+Without SRP:
+------------
+class UserManager {
+    
+    func createUser() {
+        // Code to create user
+    }
+
+    func sendWelcomeEmail() {
+        // Code to send email
+    }
+}
+
+Here, UserManager is doing two things: managing users and sending emails. This violates SRP.
+
+With SRP:
+------------
+class UserManager() {
+
+    func createUser() {
+        // Code to create user
+    }
+}
+
+class EmailManager() {
+    
+    func sendWelcomeEmail() {
+        // Code to send email
+    }
+}
+
+Now, UserManager is responsible only for user-related actions and EmailManager is responsible for email-related tasks, following the SRP.
+
+
+==> Open/Closed Principle (OCP)
+
+Software enities (classes, methods etc.) should be open for extension but closed for modification. This means you should be able to add new functionality without changing existing code, which helps avoid introducing bugs into the system.
+
+Example:
+
+Without OCP:
+-------------
+class Discount {
+    
+    func calculateDiscount(for amount: Double, discountType: String) -> Double {
+        if discountType == "BalckFriday" {
+            return amount * 0.5
+        } else if discountType == "NewYear" {
+            return amount * 0.7
+        }
+        return amount
+    }
+}
+
+This class is not closed for modification since you have to modify the calculateDiscount function whenever you add a new discount type.
+
+With OCP:
+---------
+protocol Discount {
+    func calculateDiscount(for amount: Double) -> Double
+}
+
+class BlackFridayDiscount: Discount {
+    func calculateDiscount(for amount: Double) -> Double {
+        return amount * 0.5
+    }
+}
+
+class NewYearDiscount: Discount {
+    func calculateDiscount(for amount: Double) -> Double {
+        return amount * 0.7
+    }
+}
+
+Now the Discount protocol is closed for modification, but you can extend it by adding new classes, following the OCP.
+
+
+==> Liskov Substitution Principle (LSP)
+
+Objects of a superclass should be replacable with objects of a subclass without affecting the correctness of the program. This means that subclasses should adhere to the behaviour expected from their superclasses.
+
+Example:
+
+Without LSP:
+-------------
+class Rectangle {
+
+    var width: Double = 0
+    var height: Double = 0
+
+    func area() -> Double {
+        return width * height
+    }
+}
+
+class Square: Rectangle {
+    
+    override var width: Double {
+        didSet {
+            height = width
+        }
+    }
+
+    override var height: Double {
+        didSet {
+            width = height
+        }
+    }
+}
+
+Here, Square modifies the behaviour of Rectangle by tying width and height together, which violates LSP because the behaviour of Rectangle has been altered.
+
+With LSP:
+----------
+protocol Shape {
+    func area() -> Double
+}
+
+class Rectangle: Shape {
+    
+    var width: Double = 0
+    var height: Double = 0
+
+    func area() -> Double {
+        return width * height
+    }
+}
+
+class Square: Shape {
+
+    var side: Double = 0
+
+    func area() -> Double {
+        return side * side
+    }
+}
+
+Here, both Rectangle and Square conform to the Shape protocol, and they both maintain their own consistent behaviour, following LSP.
+
+
+==> Interface Segregation Principle (ISP)
+
+A class should not be forced to implement interfaces it doesn't use. Instead of one large protocol, create smaller, more specific protocols so that implementing classes only need to know about the methods they actually use.
+
+Example:
+
+Without ISP:
+-------------
+protocol Worker {
+    func work()
+    func attendMeeting()
+}
+
+class Developer: Worker {
+    
+    func work() {
+        print("Writing code")
+    }
+
+    func attendMeeting() {
+        // Developer has no meetings but must implement this method
+    }
+}
+
+Here, Developer is forced to implement a method (attendMeeting) it doesn't need, violating ISP.
+
+With ISP:
+----------
+protocol Workable {
+    func work()
+}
+
+protocol MeetingAttendee {
+    func attendMeeting()
+}
+
+class Developer: Workable {
+    
+    func work() {
+        print("Writing code")
+    }
+}
+
+class Manager: Workable, MeetingAttendee {
+    
+    func work() {
+        print("Managing team")
+    }
+
+    func attendMeeting() {
+        print("Attending meeting")
+    }
+}
+
+Now, Developer only implements what it needs (Workable), and Manager implements both Workable and MeetingAttendee, following ISP.
+
+
+==> Dependency Inversion Principle (DIP)
+
+High level module should not depend on low-level modules. Both should depend on abstractions. This promotes loose coupling and flexibility in the system.
+
+Example:
+
+Without DIP:
+------------
+class EmailService {
+    
+    func sendEmail() {
+        print("Sending email")
+    }
+}
+
+class UserManager {
+    
+    let emailService = EmailService()
+
+    func registerUser() {
+        emailService.sendEmail()
+    }
+}
+
+Here, UserManager directly depends on the EmailService class, making the code tightly coupled.
+
+With DIP:
+----------
+protocol MessageService {
+    func sendMessage()
+}
+
+class EmailService: MessageService {
+    
+    func sendMessage() {
+        print("Sending email")
+    }
+}
+
+class UserManager {
+    
+    let messageService: MessageService
+
+    init(messageService: MessageService) {
+        self.messageService = messageService
+    }
+
+    func registerUser() {
+        messageService.sendMessage()
+    }
+}
+
+Now, UserManager depends on MessageService abstraction, not on a specific implementation. You can easily switch to other message services (eg SMSService) without changing UserManager, following DIP.
+
+
+//============================================================================================================================
+3. Clean Swift (VIP) iOS Architecture Pattern
+//============================================================================================================================
+
+When implementing a clean Swift in your project your code will be structured around each of your application screens or segments of screens, also known as "scenes".
+
+In theory, each scene is a structure with around 6 components:
+
+- View Controller
+- Interactor
+- Presenter
+- Worker
+- Models
+- Router
+
+
+The View Controller, Interactor and Presenter are the 3 main components of clean Swift.
+
+
+             ---------------             -------------------             ---------------
+            |                |            |                    |            |                |
+            |    Presenter    |--------->    |  View Controller    | --------->|   Interactor    |
+            |                |            |                    |            |                |
+             ---------------             -------------------             ---------------
+                     ^                                                            |
+                     |                                                            |
+                     |___________________________________________________________|
+
+
+Example:
+---------
+
+Imagine a screen with a login button. It's a scene that defines a structure with a VIP cycle of View Controller, Interactor and Presenter. When the user taps the button, the View Controller calls the Interactor. The Interactor uses the business logic inside to prepare an output (with the use of Workers). It then propagates the result to the Presenter. The Presenter calls the VC's method to call the Router to display a new scene.
+
+Sample Project: https://github.com/strzempa/CleanLogin-CleanSwiftExample
+
+
+View Controller:
+-----------------
+- defines a scene and contains a view or views
+- keeps instances of interactor and router
+- passes the action from views to Interactor as output and takes the Presenter actions as input.
+
+// MARK: View Controller
+
+protocol LoginSceneViewControllerInput: AnyObject {
+  func showLogingSuccess(fullUserName: String)
+  func showLogingFailure(message: String)
+}
+
+protocol LoginSceneViewControllerOutput: AnyObject {
+  func tryToLogIn()
+}
+
+final class LoginSceneViewController: UIViewController {
+  var interactor: LoginSceneInteractorInput?
+  var router: LoginSceneRoutingLogic?
+
+  private var loginButton: UIButton = {...}()
+}
+
+private extension LoginSceneViewController {
+  @objc func loginButtonAction() {
+    interactor?.tryToLogIn()
+  }
+}
+
+extension LoginSceneViewController: LoginSceneViewControllerInput {
+  func showLogingSuccess(fullUserName: String) {
+    router?.showLoginSuccess()
+  }
+
+  func showLogingFailure(message: String) {
+    router?.showLogingFailure(message: message)
+  }
+}
+
+
+Interactor:
+-----------
+- contains a Scene's business logic
+- keeps a reference to the Presenter
+- runs actions on Workers based on input (from the View Controller), triggers and passes output to the Presenter
+- the interactor should never import the UIKit
+
+// MARK: Interactor
+
+typealias LoginSceneInteractorInput = LoginSceneViewControllerOutput
+
+protocol LoginInteractorOutput: AnyObject {
+  func showLogingSuccess(user: CleanLoginUser)
+  func showLogingFailure(message: String)
+}
+
+final class LoginSceneInteractor {
+  var presenter: LoginScenePresenterInput?
+  var authWorker: LoginSceneAuthLogic?
+}
+
+extension LoginSceneInteractor: LoginSceneInteractorInput {
+  func tryToLogIn() {
+    authWorker?.makeAuth(completion: { result in
+      DispatchQueue.main.async { [weak self] in
+        switch result {
+        case .success(let data):
+          self?.presenter?.showLogingSuccess(user: data)
+        case .failure(let error):
+          self?.presenter?.showLogingFailure(message: error.localizedDescription)
+        }
+      }
+    })
+  }
+}
+
+
+Worker:
+--------
+- an abstraction that handles different under-the-hood operations like fetch the user from core data, download the profile photo etc.
+- should follow the Single Responsibility Principle (an interactor may contain many workers with different responsibilities)
+
+// Marker: Worker
+
+protocol LoginSceneAuthLogic {
+  func makeAuth(
+    completion: @escaping (Result<CleanLoginUser, LoginSceneAuthWorker.LoginSceneAuthWorkerError>
+  ) -> Void)
+}
+
+final class LoginSceneAuthWorker {
+  private let service: AuthService
+  private var bag = Set<AnyCancellable>()
+
+  init(service: AuthService) {
+    self.service = service
+  }
+
+  enum LoginSceneAuthWorkerError: Error {
+    case authFailed(String)
+    case unauthorized
+  }
+}
+
+extension LoginSceneAuthWorker: LoginSceneAuthLogic {
+  func makeAuth(
+    completion: @escaping (Result<CleanLoginUser, LoginSceneAuthWorkerError>
+  ) -> Void) {
+    service.auth()
+      .sink { _ in } receiveValue: { value in
+        switch value.authorized {
+        case true:
+          completion(.success(CleanLoginUser()))
+        case false:
+          completion(.failure(.unauthorized))
+        }
+      }
+      .store(in: &bag)
+  }
+}
+
+
+Presenter:
+----------
+- keeps a weak reference to the View Controller that is an output of the Presenter
+- after the interactor produces some result, it passes the response to the Presenter which then marshals the response into view models suitable for display and then passes the view models back to the View Controller for display to the user.
+
+// Mark: Presenter
+
+typealias LoginScenePresenterInput = LoginInteractorOutput
+typealias LoginScenePresenterOutput = LoginSceneViewControllerInput
+
+final class LoginScenePresenter {
+  weak var viewController: LoginScenePresenterOutput?
+}
+
+extension LoginScenePresenter: LoginScenePresenterInput {
+  func showLogingFailure(message: String) {
+    viewController?.showLogingFailure(message: "")
+  }
+
+  func showLogingSuccess(user: CleanLoginUser) {
+    viewController?.showLogingSuccess(fullUserName: user.firstName + " " + user.lastName)
+  }
+}
+
+
+Router:
+-------
+- extracts the navigation logic out of View Controller
+- keeps a weak reference to the source (View Controller)
+
+// Mark: Router
+
+protocol LoginSceneRoutingLogic {
+  func showLoginSuccess()
+  func showLogingFailure(message: String)
+}
+
+final class LoginSceneRouter {
+  weak var source: UIViewController?
+
+  private let sceneFactory: SceneFactory
+
+  init(sceneFactory: SceneFactory) {
+    self.sceneFactory = sceneFactory
+  }
+}
+
+extension LoginSceneRouter: LoginSceneRoutingLogic {
+  func showLogingFailure(message: String) {
+    source?.present(UIAlertController.failure(message), animated: true)
+  }
+
+  func showLoginSuccess() {
+    let scene = sceneFactory.makeLoginScene()
+    source?.navigationController?.pushViewController(scene, animated: true)
+  }
+}
+
+
+Configurator:
+-------------
+- takes responsibilty of configuring the VIP cycle by encapsulating the creation of all instances and assigning them where needed.
+
+// Mark: Configurator
+
+protocol LoginSceneConfigurator {
+  func configured(_ vc: LoginSceneViewController) -> LoginSceneViewController
+}
+
+final class DefaultLoginSceneConfigurator: LoginSceneConfigurator {
+  private var sceneFactory: SceneFactory
+
+  init(sceneFactory: SceneFactory) {
+    self.sceneFactory = sceneFactory
+  }
+
+  @discardableResult
+  func configured(_ vc: LoginSceneViewController) -> LoginSceneViewController {
+    sceneFactory.configurator = self
+    let service = DefaultAuthService(
+      networkManager: DefaultNetworkManager(session: MockNetworkSession())
+    )
+    let authWorker = LoginSceneAuthWorker(service: service)
+    let interactor = LoginSceneInteractor()
+    let presenter = LoginScenePresenter()
+    let router = LoginSceneRouter(sceneFactory: sceneFactory)
+    router.source = vc
+    presenter.viewController = vc
+    interactor.presenter = presenter
+    interactor.authWorker = authWorker
+    vc.interactor = interactor
+    vc.router = router
+    return vc
+  }
+}
+
+Model:
+------
+- decoupled data abstractions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

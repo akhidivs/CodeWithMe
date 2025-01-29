@@ -15,6 +15,11 @@
 		8A5B8CBF2CBE71BB008F58AB /* CodeWithMeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5B8CBE2CBE71BB008F58AB /* CodeWithMeUITests.swift */; };
 		8A5B8CC12CBE71BB008F58AB /* CodeWithMeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5B8CC02CBE71BB008F58AB /* CodeWithMeUITestsLaunchTests.swift */; };
 		8AE3F4342CDBA28C00B25739 /* ApplicationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE3F4332CDBA28C00B25739 /* ApplicationData.swift */; };
+		DBA118AF2D48E5B8008F6DDD /* iOSBasicConcepts.txt in Resources */ = {isa = PBXBuildFile; fileRef = DBA118AE2D48E5B8008F6DDD /* iOSBasicConcepts.txt */; };
+		DBA118B72D48E8B7008F6DDD /* SwiftDesignPatterns.txt in Resources */ = {isa = PBXBuildFile; fileRef = DBA118B62D48E8B7008F6DDD /* SwiftDesignPatterns.txt */; };
+		DBA118BA2D49059E008F6DDD /* Reservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA118B92D49059E008F6DDD /* Reservation.swift */; };
+		DBA118BE2D4931CA008F6DDD /* ParentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA118BD2D4931CA008F6DDD /* ParentView.swift */; };
+		DBA118C02D4931D3008F6DDD /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA118BF2D4931D3008F6DDD /* LogoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +58,11 @@
 		8ADAC0092CC2620000A121CA /* Queue.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Queue.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		8ADAC00A2CC3604300A121CA /* CodingQuestions.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = CodingQuestions.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		8AE3F4332CDBA28C00B25739 /* ApplicationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationData.swift; sourceTree = "<group>"; };
+		DBA118AE2D48E5B8008F6DDD /* iOSBasicConcepts.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = iOSBasicConcepts.txt; sourceTree = "<group>"; };
+		DBA118B62D48E8B7008F6DDD /* SwiftDesignPatterns.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = SwiftDesignPatterns.txt; sourceTree = "<group>"; };
+		DBA118B92D49059E008F6DDD /* Reservation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reservation.swift; sourceTree = "<group>"; };
+		DBA118BD2D4931CA008F6DDD /* ParentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentView.swift; sourceTree = "<group>"; };
+		DBA118BF2D4931D3008F6DDD /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,18 +113,16 @@
 		8A5B8CA12CBE71B6008F58AB /* CodeWithMe */ = {
 			isa = PBXGroup;
 			children = (
+				DBA118B82D49058B008F6DDD /* SwiftUI */,
+				DBA118B22D48E7C8008F6DDD /* DesignPatterns */,
+				DBA118B12D48E632008F6DDD /* CodingPractice */,
+				DBA118B02D48E5D3008F6DDD /* iOSBasicConcepts */,
 				8A5B8CA22CBE71B6008F58AB /* CodeWithMeApp.swift */,
 				8A5B8CA42CBE71B6008F58AB /* ContentView.swift */,
 				8A5B8CA62CBE71BA008F58AB /* Assets.xcassets */,
 				8A5B8CA82CBE71BA008F58AB /* CodeWithMe.entitlements */,
-				8A5B8CA92CBE71BA008F58AB /* Preview Content */,
-				8A5B8CCD2CBE725C008F58AB /* LinkedList.playground */,
-				8ADAC0082CC2558F00A121CA /* Stack.playground */,
-				8ADAC0092CC2620000A121CA /* Queue.playground */,
-				8ADAC00A2CC3604300A121CA /* CodingQuestions.playground */,
-				8A00512B2CD0E9F80017717F /* BinaryTree.playground */,
 				8AE3F4332CDBA28C00B25739 /* ApplicationData.swift */,
-				8A7B08632D47CFBC00954BE2 /* PracticeNode.playground */,
+				8A5B8CA92CBE71BA008F58AB /* Preview Content */,
 			);
 			path = CodeWithMe;
 			sourceTree = "<group>";
@@ -142,6 +150,45 @@
 				8A5B8CC02CBE71BB008F58AB /* CodeWithMeUITestsLaunchTests.swift */,
 			);
 			path = CodeWithMeUITests;
+			sourceTree = "<group>";
+		};
+		DBA118B02D48E5D3008F6DDD /* iOSBasicConcepts */ = {
+			isa = PBXGroup;
+			children = (
+				DBA118AE2D48E5B8008F6DDD /* iOSBasicConcepts.txt */,
+			);
+			path = iOSBasicConcepts;
+			sourceTree = "<group>";
+		};
+		DBA118B12D48E632008F6DDD /* CodingPractice */ = {
+			isa = PBXGroup;
+			children = (
+				8A5B8CCD2CBE725C008F58AB /* LinkedList.playground */,
+				8ADAC0082CC2558F00A121CA /* Stack.playground */,
+				8ADAC0092CC2620000A121CA /* Queue.playground */,
+				8ADAC00A2CC3604300A121CA /* CodingQuestions.playground */,
+				8A00512B2CD0E9F80017717F /* BinaryTree.playground */,
+				8A7B08632D47CFBC00954BE2 /* PracticeNode.playground */,
+			);
+			path = CodingPractice;
+			sourceTree = "<group>";
+		};
+		DBA118B22D48E7C8008F6DDD /* DesignPatterns */ = {
+			isa = PBXGroup;
+			children = (
+				DBA118B62D48E8B7008F6DDD /* SwiftDesignPatterns.txt */,
+			);
+			path = DesignPatterns;
+			sourceTree = "<group>";
+		};
+		DBA118B82D49058B008F6DDD /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				DBA118B92D49059E008F6DDD /* Reservation.swift */,
+				DBA118BD2D4931CA008F6DDD /* ParentView.swift */,
+				DBA118BF2D4931D3008F6DDD /* LogoView.swift */,
+			);
+			path = SwiftUI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -249,6 +296,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A5B8CAB2CBE71BA008F58AB /* Preview Assets.xcassets in Resources */,
+				DBA118B72D48E8B7008F6DDD /* SwiftDesignPatterns.txt in Resources */,
+				DBA118AF2D48E5B8008F6DDD /* iOSBasicConcepts.txt in Resources */,
 				8A5B8CA72CBE71BA008F58AB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -275,8 +324,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				8AE3F4342CDBA28C00B25739 /* ApplicationData.swift in Sources */,
+				DBA118C02D4931D3008F6DDD /* LogoView.swift in Sources */,
 				8A5B8CA52CBE71B6008F58AB /* ContentView.swift in Sources */,
+				DBA118BA2D49059E008F6DDD /* Reservation.swift in Sources */,
 				8A5B8CA32CBE71B6008F58AB /* CodeWithMeApp.swift in Sources */,
+				DBA118BE2D4931CA008F6DDD /* ParentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

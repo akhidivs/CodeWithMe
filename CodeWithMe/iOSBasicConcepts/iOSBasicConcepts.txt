@@ -1,0 +1,469 @@
+/* 
+  iOSBasicConcepts.txt
+  CodeWithMe
+
+  Created by Akhilesh Mishra on 28/01/25.
+  
+*/
+
+============================================================
+1. What are optionals in Swift and how do you handle them ?
+============================================================
+
+In Swift, Optionals are a feature that allows a variable to either hold a value or be nil. They are used to represent the absence of a value in a safe way.
+
+For example, if you declare a variable as an Int?, it can either hold an integer value or be nil.
+
+var age: Int? = 25
+age = nil
+
+Unwrapping optionals
+--------------------
+
+Because optionals may or may not contain a value, you cannot use them directly. You need to unwrap them to safely access the underlying value. There are several ways to handle Optionals in Swift:
+
+- Forced unwrapping (!)
+- Optional Binding (if let or guard let)
+- Optional chaining
+- Nil Coalescing Operator (??)
+
+=========================================================================================================
+2. Explain the difference between Structs and Classes in Swift. When would you use one over the other ?
+==========================================================================================================
+
+In Swift, both structs and classes are used to create custom data types, but they have key differences in terms of functionality, memory management and usage.
+
+- struct is a value type while class is a reference type (value vs reference types)
+- structs cannot inherit from other structs, they can only confirm to protocols but do not support inheritance. Classes support inheritance. (inheritance)
+- structs are automatically deallocated when they go out of scope, and because they are of value types, you don't have to worry about memory leaks or retain cycles. On the other hand, classes use Automatic Reference Counting (ARC) for memory management i.e when no strong references remain, the class instance is deallocated. (memory management)
+- If a struct is declared with let, all of its proprties will be immutable (even if decalred var). While in case of class, even if a class instance is declred as constant, you can still modify its properties unless they are specifically marked as let inside the class (Mutability)
+- structs do not have an identity i.e two instances of an struct are considered distinct even if they have the same values. Classes have an identity i.e two reference can point to the same instance and the === operator is used to check the same.
+
+- Uses struct for simpler, value-type, immutable data where copying is desired
+- Use classes when you need reference semantics, inheritance and shared mutable state
+
+============================================================================================================
+3. Explain protocol-oriented programming (POP) in Swift and how it differs from object-oriented programming.
+============================================================================================================
+
+Protocol-oriented programming (POP) is a programming paradigm in Swift that emphasizes the use of protocols to define behaviour and encourages composition over inheritance. It differs from OOP which relies heavily on class hierarchies, inheritance and polymorphism.
+
+Key concepts of Protocol Oriented Programming (POP)
+---------------------------------------------------
+
+- Protocols as behaviour blueprints: a protocol defines a blueprint of methods, properties and other requirements that suit a particular task or functionality. Classes, structs or enums that conforms to a protocol must implement these requirements
+
+- Protocols can be adopted by both value types (structs, enums) and reference types (classes) giving more flexibilty in how you design systems. However value types are used more frequently because they provide safe value semantics
+
+- Protocol Extension: One of Swift's most powerful features is the ability to add default implementations to protocols via protocol extensions. This allows you to define behaviour in the protocol itself, which all confirming types can inherit. If a specific type needs to override this behaviour, it can still provide it's own implementation.
+
+- Protocol Inheritance: Like classes, protocols can also inherit from other protocols. This allows you to build complex protocols by combining simpler ones.
+
+-  Protocol Compositions: Swift allows you to compose multiple protocols into a single type requirement using protocol compositions  (& operator). This makes it easy to create flexible APIs without using complex class heirarchies.
+
+===========================================================================================================
+4. How would you handle background tasks in iOS. Explain Grand Central Dispatch (GCD) and Operation Queues.
+===========================================================================================================
+
+Handling background tasks in iOS is crucial for ensuring that tasks like network calls, data processing , and other time-consuming operations do not block the main thread (UI thread). To handle background tasks efficiently, iOS provides GCD and OperationQueues.
+
+Grand Central Dispatch (GCD)
+-----------------------------
+GCD is a low level API that provides a lightweight and efficient way to perform tasks concurrently in the background. It allows you to schedule tasks on queues that run asynchronously and synchronously on different threads.
+
+Key concept in GCD:
+
+- Dispatch Queues: GCD uses dispatch queues to mange the execution of tasks. A dispatch queue is essentially a line of tasks waiting to be executed. There are 2 types of dispatch queues:
+    -- Serial Queues: tasks are executed one at a time in the order they are added.
+    -- Concurrent Queues: tasks are executed concurrently and starts in the order they are added but may finish in any order.
+
+- Main Queue: This is a globally available serial queue that runs tasks on the main thread. Use this queue to update UI elements
+
+- Global Queues: These are concurrent queues provided by the system. There are multiple global queues with different priority levels:
+    -- userInteractive: for tasks requiring immediate user interactions, like animations or UI updates
+    -- userInitiated: for tasks triggerred by the user that should be completed quickly, such as file or network loading.
+    -- utility: for long-running tasks that might take some time, such as downloads and database operations.
+    -- background: for tasks that aren't time sensitive, like cleaning up caches
+
+How to use GCD:
+
+- Asynchronous execution: running tasks on a background thread without blocking the main thread
+
+DispatchQueue.global(qos: .background).async {
+
+    // Background task
+    let result = performLongRunningTask()
+
+    // Return to main thread to update UI
+    DispatchQueue.main.async {
+        self.updateUI(with: result)
+    }
+}
+
+- Synchronous execution: the task is executed in the same queue and the code waits until the task finishes
+
+DispatchQueue.global(qos: .userInitiated).sync {
+    
+    // This will block the current thread until the task finishes
+    performImportantTask()
+}
+
+- Delaying execution: you can delay a task using asyncAfter method
+
+DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+    print("executed after 2 seconds")
+}
+
+
+Operation Queues
+-----------------
+Operation Queues provide a higher-level abstraction over GCD and are part of the Foundation framewrok. They give you more control and flexibility when managing concurrent tasks, allowing you to cancel, prioritize and add dependencies between tasks.
+
+Key Concept in Operation Queues:
+
+- Operation: An Operation is a single unit of work. You can either use the built-in BlockOperation to execute a block of code, or you can subclass Operation for more complex tasks.
+
+let operation = BlockOperation {
+    performLongRunningTask()
+}
+
+- OperationQueue: And OperationQueue manages the execution of Operation objects. It can executes tasks concurrently or serially, depending on how you configure it.
+
+let queue = OperationQueue()
+queue.maxConcurrentOperationCount = 2 // Limit the number of concurrent tasks
+
+let operation1 = BlockOperation {
+    performTask1()
+}
+
+let operation2 = BlockOperation {
+    performTask2()
+}
+
+queue.addOperation(operation1)
+queue.addOperation(operation2)
+
+
+Advanced Features of Operation Queues:
+
+- Dependencies: You can specify that one operation depends on another. This ensures that certain tasks are executed in a specific order.
+
+let operation1 = BlockOperation {
+    print("Task 1")
+}
+
+let operation2 = BlockOperation {
+    print("Task 2")
+}
+
+// operation2 will start only after operation1 finishes
+operation2.addDependency(operation1)
+
+let queue = OperationQueue()
+queue.addOperations([operation1, operation2])
+
+- Cancelling Operations: You can cancel operation in an Operation Queue. This can be useful for tasks like network requests, where you might want to stop a task if it's no longer needed.
+
+let operation = BlockOperation {
+    if !operation.isCancelled {
+        performTask()
+    }
+}
+
+// cancel the operation
+operation.cancel()
+
+- Operation Prioritazation: You can assign a priority to each operation using the queuePriority property.
+
+
+===========================================================================================================
+5. Describe the role of GraphQL in mobile app development.
+===========================================================================================================
+
+GraphQL is a query language for APIs that allows clients to request only the data they need. It reduces over-fetching and under-fetching of data, improving efficiency in mobile app communication with server.
+
+
+===========================================================================================================
+6. Escaping and Non-Escaping Closures in Swift
+===========================================================================================================
+
+In Swift, a closure is a self-contained block of code that can be passed to and called from a function. Closures can be passed as argument to functions and can be stored as variables or constants.
+
+Escaping Closure:
+------------------
+A closure that is called after the function that it was supplied to returns is referred to as escaping closure. It outlives the function it was supplied to. When a task takes a long time to finish, the closure escapes and outlives the purpose for which it was designed.
+
+Example:
+--------
+func loadData(url: URL, completion: @escaping (_ data: Data?) -> Void) {
+    DispatchQueue.global.async {
+        let data = try? Data(contentsOf: url)
+        DispatchQueue.main.async {
+            completion(data)
+        }
+    }
+}
+
+let url = URL(string: "https://api.com")!
+loadData(url: url) { data in
+    guard data != nil else {
+        return
+    }
+}
+
+print("Data loaded")
+
+Non-Escaping Closure:
+----------------------
+A closure that is caalled inside the function it was supllied into i.e before it returns, is referred to as non-escaping closure. The function, when given a closure as a parameter, executes the closure and returns the compiler. The passed closure in this case no longer exists in memory once the closure has been executed and execution has concluded, since i has left the scope.
+
+Example:
+---------
+func doWork(completion: () -> Void) {
+    // perform some work
+    completion()
+}
+
+doWork {
+    print("Work is complete")
+}
+
+
+
+==> Capture values with Swift Closures
+
+Closures in Swift can capture values from the surrounding scope, in order to use them inside the closure body. This allows for a closure to reference variables that are defined outside of it's own scope, without the need to pass them as arguments.
+
+For example:
+
+let x = 10
+
+let add = { (_ a: Int) -> Int in
+    return a + x
+}
+
+print(add(5)) // return 15 i.e 5 + 10
+
+In this example, the closure "add" captures the value of "x" from the surrounding scope and uses it inside the closure body. It's important to note that if the captured variable is modified after the closure is defined, the closure will use the updated value. This can lead to unexpected behaviour if the closure is called after the variable has been modified.
+
+Capturing Self
+---------------
+
+
+
+
+===========================================================================================================
+7. Higher Order Functions in Swift
+===========================================================================================================
+
+Higher Order functions
+
+map, compactMap, flatMap, filter, forEach, filter, reduce, sorted, reduce
+
+
+
+===========================================================================================================
+8. Access Control in Swift
+===========================================================================================================
+
+Access control restricts access to parts of your code from code in other source files and modules. This enables us to hide the implementation details of our code, and to specify a preferred interface through which that code can be accessed and used.
+
+Swift's access control model is based on the concept of modules, source files and packages.
+
+- A module is a single unit of code distribution -  a framework or application that's built and shipped as a single unit and that can be imported by another module with Swift's import keyword.
+
+- A source file is a single Swift source code file within a module
+
+- A package is a group of modules that you develop as a unit
+
+Swift provides six different access levels which are relative to the source file in which an entity is defined, the module that source file belongs to, and the package that module belong to.
+
+i) open access and public access enable entities to be used within any source file from their defining module, and also in a source file from another module that imports the defining module.
+
+ii) package access enables entities to be used in source file from their defining package only
+
+iii) internal access enables enitites to be used in source files from their defining module only
+
+iv) file-private access enable entities to be used in same source file only
+
+v) private access restrics the use of entity to the enclosing declaration and to extension of that declaration that are used in same source file.
+
+open access applies only to classes and class members, and it differs from public access by allowing code outside the module to subclass and override.
+
+
+===========================================================================================================
+9. Difference between designated and convenience initializers in Swift.
+===========================================================================================================
+
+A designated initializer is the primary initializer for a class. It must fully initialize all properties introduced by its class before calling a superclass initializer. A class can have more than one designated initializer.
+
+A convenience initializer is a secondary initializer that must call a designated initializer of the same class. It is useful when you want to provide default values or other custom setup. A class does not require convenience initializers.
+
+The Three rules:
+With that clear you need to remember three rules for designated and convenience initializers for class types:
+
+- A designated initializer must call a designated initializer from the immediate superclass.
+- A convenience initializer must call another initializer from the same class.
+- A convenience initializer must ultimately call a designated initializer.
+
+What does this mean for us? In simple terms, do not call super from your convenience initializer. Call another initializer (convenience or designated) from the same class.
+
+A Practical Example
+Let’s give it a try with a practical example. Creating and configuring an image view from an image in the asset catalog ready for us to use with Auto Layout needs several lines of code:
+
+// Create the image
+let heartImage = UIImage(named: "Heart")
+
+// Now create the image view using the image
+let heartImageView = UIImageView(image: heartImage)
+
+// Configure the view remembering to disable
+// the autoresizing mask if we are using
+// Auto Layout
+heartImageView.translatesAutoresizingMaskIntoConstraints = false
+
+// Sometime we must also override the default content mode
+heartImageView.contentMode = .scaleAspectFit
+
+// Finally add to the view hierarchy
+view.addSubview(heartImageView)
+
+This gets boring quickly and I always end up forgetting to disable the translation of the auto resizing mask.
+
+Creating a Convenience Initializer
+Let’s create a new UIImageView convenience initializer that performs the configuration for us. Our initializer will take the name of the image in the asset catalog and the content mode. Since we do not always want to set the content mode we will make it default to scale to fill. Here is the code:
+
+extension UIImageView {
+  convenience init?(named name: String, contentMode: UIViewContentMode = .scaleToFill) {
+    guard let image = UIImage(named: name) else {
+      return nil
+    }
+
+    self.init(image: image)
+    self.contentMode = contentMode
+    translatesAutoresizingMaskIntoConstraints = false
+  }
+}
+Some points to note:
+
+If the image name parameter is invalid our initializer will fail and should return nil. You define a failable initializer with a question mark after the init keyword (init?).
+Once we have a valid UIImage we call the designated initializer of UIImageView to create the image view.
+We can only set properties on the UIImageView object after we have called the designated initializer.
+
+Example Usage
+
+// Default contentMode
+let heart = UIImageView(named: "Heart")
+
+// Specifying a contentMode
+let star = UIImageView(named: "Star", contentMode: .scaleAspectFit)
+
+Note that the failable initializer means the return type is an optional (UIImageView?) so we would need to unwrap it before adding it to the superview.
+
+Property Access Before Initializing Self
+One final note on when you can access self to modify properties. If we try to set a property of UIImageView before we have called
+
+self.init(image: UIImage?) we get an error:
+
+// Does not compile
+self.contentMode = contentMode
+self.init(image: image)
+
+// Use of 'self' in property access 'contentMode'
+// before self.init initializes self
+
+If you remember that a designated initializer must fully initialize all properties of its class you can maybe see why this is not allowed. Even if the compiler allowed us to do it the designated initializer would overwrite our value with the default value.
+
+
+===========================================================================================================
+10. Explain SSL Pinning in iOS.
+===========================================================================================================
+
+SSL (Secure Socket Layer) pinning is a security technique used in iOS and other platforms to prevent man-in-the-middle (MITM) attacks by ensuring that an app only communicates with a specefic, trusted server. This is particularly important in mobile applications handling sensitive data, like financial or healthcare apps, because it ensures that encypted commincations are actually being sent to the correct server and not intercepted or redirected to a malicious one.
+
+What is SSL Pinning ?
+---------------------
+In a typical SSL/TLS connection, the client(iOS app) validates the server's certificate using the device's built-in certificate authority (CA) store. However, this method is vulnerable to MITM attacks if someone manages to compromise the CA or the network. SSL pinning adds an additional layer of security by "pinning" the server's certificate (or a hash of it) directly within the app. This way, the app checks if the server's certificate matches the one it's supposed to trust before establishing a secure connection.
+
+Types of SSL Pinning
+--------------------
+- Certificate Pinning: This involves embedding the server's certificate in the app bundle. During a connection, the app compares the server's certificate with the one stored locally. If they match, the connection proceeds; if not, it's blocked. This is more secure but requires updating the app whenever the server's certificate changes.
+
+- Public Key Pinning: Instead of pinning the whole certificate, only the public key part of the certificate is pinned. This is more flexible since public key don't change as often as full certificates. It allows for some updates on the server's end without breaking the app's connection.
+
+- Hash Pinning: In this method, a hash of the certificate or public key is stored in the app. The app hashes the server's certificate during the connectionand compares it with the stored hash. This method offers a balance of security and flexibilty.
+
+Implementing SSL Pinning in iOS
+-------------------------------
+- Using URLSession with Trust Evaluation
+
+func urlSession(_ session: URLSession,
+                didReceive challenge: URLAuthenticationChallenge,
+                completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+    if let serverTrust = challenge.protectionSpace.serverTrust,
+       let certificate = SecTrustGetCertificateAtIndex(serverTrust, 0) {
+
+       //Get the local pinned certificate data
+       let localCertificateData = NSData(contentsOf: Bindle.main.url(forResource: "server", withExtension: "cer")!!
+
+       //Get the server certificate data
+       let serverCertificateData = SecCertificateCopyData(certificate) as Data
+
+       //Compare the certificates
+       if localCertificateData.isEqual(to: serverCertificateData) {
+              let credential = URLCredential(trust: serverTrust)
+              completionHandler(.useCredential, credential)
+       } else {
+              completionHandler(.cancelAuthenticationChallenge, nil)
+       }
+    } else {
+        completionHandler(.cancelAuthenticationChallenge, nil)
+    }
+}
+
+- Using Third Party Libraries (eg. Alamofire)
+
+Benefits:
+---------
+- Enhance Security
+- Trust Specific Servers
+
+Limitations:
+------------
+- Certificate expiry
+- complexity and maintenance
+- Tseting challenges
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
